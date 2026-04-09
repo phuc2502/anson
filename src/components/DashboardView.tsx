@@ -51,8 +51,8 @@ const DashboardView: React.FC<DashboardViewProps> = ({ projects: realProjects, t
     return (
         <div className="p-8 space-y-8 bg-slate-50/50 min-h-full">
             {/* Hero Section */}
-            <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="md:col-span-2 relative overflow-hidden rounded-3xl bg-primary p-10 text-white flex flex-col justify-between min-h-[300px] shadow-2xl shadow-primary/20 group">
+            <section className="w-full">
+                <div className="relative overflow-hidden rounded-3xl bg-primary p-10 text-white flex flex-col justify-between min-h-[300px] shadow-2xl shadow-primary/20 group">
                     {/* Background Image with Gradient Overlay */}
                     <div className="absolute inset-0 pointer-events-none">
                         <img
@@ -85,60 +85,6 @@ const DashboardView: React.FC<DashboardViewProps> = ({ projects: realProjects, t
                                 Xem mẫu tài liệu
                             </button>
                         </div>
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-3xl p-8 flex flex-col justify-between border border-slate-100 shadow-sm relative group">
-                    <div className="absolute top-4 right-4 group-hover:rotate-12 transition-transform">
-                        <div className="p-2 bg-emerald-50 text-emerald-500 rounded-lg">
-                            <ShieldCheck size={20} />
-                        </div>
-                    </div>
-                    <div>
-                        <div className="flex items-center gap-2 mb-1">
-                            <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Sức khỏe tài liệu</h3>
-                            <div className="group/info relative">
-                                <div className="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center text-[10px] text-slate-400 cursor-help">?</div>
-                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-slate-800 text-white text-[10px] rounded-lg opacity-0 group-hover/info:opacity-100 transition-opacity pointer-events-none z-50">
-                                    Chỉ số đánh giá độ đầy đủ, tính nhất quán và tuân thủ tiêu chuẩn của các tài liệu đã được AI tạo ra.
-                                </div>
-                            </div>
-                        </div>
-                        <p className="text-xs text-slate-400 mb-8 font-medium">Dựa trên {generatedDocs.length} tài liệu đã tạo</p>
-
-                        <div className="space-y-6">
-                            <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                    <span className="text-xs font-bold text-slate-600">Độ phủ yêu cầu</span>
-                                    <span className="text-xs font-black text-primary">{generatedDocs.length > 0 ? '94%' : '0%'}</span>
-                                </div>
-                                <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                                    <motion.div
-                                        initial={{ width: 0 }}
-                                        animate={{ width: generatedDocs.length > 0 ? '94%' : '0%' }}
-                                        className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full"
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                    <span className="text-xs font-bold text-slate-600">Tính nhất quán AI</span>
-                                    <span className="text-xs font-black text-primary">{generatedDocs.length > 0 ? '88%' : '0%'}</span>
-                                </div>
-                                <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                                    <motion.div
-                                        initial={{ width: 0 }}
-                                        animate={{ width: generatedDocs.length > 0 ? '88%' : '0%' }}
-                                        className="h-full bg-gradient-to-r from-primary to-blue-400 rounded-full"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="pt-6 mt-6 border-t border-slate-50">
-                        <button className="text-xs font-black text-primary flex items-center gap-2 hover:translate-x-1 transition-transform uppercase tracking-wider">
-                            Báo cáo chi tiết <ArrowRight size={14} />
-                        </button>
                     </div>
                 </div>
             </section>
