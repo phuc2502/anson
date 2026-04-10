@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Project, Template } from '../types';
+import introVideo from '../img/intro25.mp4';
 
 interface DashboardViewProps {
     projects: Project[];
@@ -21,6 +22,7 @@ interface DashboardViewProps {
     generatedDocs: any[];
     onViewChange: (view: string) => void;
 }
+
 
 const DashboardView: React.FC<DashboardViewProps> = ({ projects: realProjects, templates, testCases, generatedDocs, onViewChange }) => {
     const brdCount = generatedDocs.filter(doc => doc.type.includes('BRD')).length;
@@ -52,16 +54,19 @@ const DashboardView: React.FC<DashboardViewProps> = ({ projects: realProjects, t
         <div className="p-8 space-y-8 bg-slate-50/50 min-h-full">
             {/* Hero Section */}
             <section className="w-full">
-                <div className="relative overflow-hidden rounded-3xl bg-primary p-10 text-white flex flex-col justify-between min-h-[300px] shadow-2xl shadow-primary/20 group">
-                    {/* Background Image with Gradient Overlay */}
+                <div className="relative overflow-hidden rounded-3xl bg-primary/30 p-10 text-white flex flex-col justify-between min-h-[300px] shadow-2xl shadow-primary/20 group">
+                    {/* Background Video */}
                     <div className="absolute inset-0 pointer-events-none">
-                        <img
-                            src="https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80&w=1200"
-                            alt="Blockchain Tech"
-                            className="h-full w-full object-cover opacity-40 mix-blend-overlay transition-transform duration-700 group-hover:scale-110"
-                            referrerPolicy="no-referrer"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-transparent"></div>
+                        <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="h-full w-full object-cover opacity-75 transition-transform duration-700 group-hover:scale-110"
+                        >
+                            <source src={introVideo} type="video/mp4" />
+                        </video>
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary/50 via-primary/25 to-transparent"></div>
                     </div>
 
                     <div className="relative z-10 max-w-lg">
@@ -117,80 +122,51 @@ const DashboardView: React.FC<DashboardViewProps> = ({ projects: realProjects, t
                 })}
             </section>
 
-            {/* Recent Projects & Activity */}
-            <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-4">
-                    <div className="flex justify-between items-end px-2">
-                        <div>
-                            <h3 className="text-lg font-bold text-on-surface">Dự án gần đây</h3>
-                            <p className="text-xs text-on-surface-variant">Quản lý các đợt tài liệu mới nhất của bạn</p>
-                        </div>
-                        <button
-                            onClick={() => onViewChange('projects')}
-                            className="text-sm font-bold text-primary hover:underline"
-                        >
-                            Xem tất cả
-                        </button>
+            {/* Recent Projects */}
+            <section className="space-y-4">
+                <div className="flex justify-between items-end px-2">
+                    <div>
+                        <h3 className="text-lg font-bold text-on-surface">Dự án gần đây</h3>
+                        <p className="text-xs text-on-surface-variant">Quản lý các đợt tài liệu mới nhất của bạn</p>
                     </div>
-                    <div className="bg-surface-container-low rounded-xl overflow-hidden border border-outline-variant/10">
-                        {recentProjects.map((project, i) => {
-                            const Icon = project.icon;
-                            return (
-                                <div key={i} className="flex items-center justify-between p-4 bg-white hover:bg-blue-50/30 transition-colors group border-b border-outline-variant/5 last:border-0">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
-                                            <Icon size={20} />
-                                        </div>
-                                        <div>
-                                            <h4 className="text-sm font-bold text-on-surface">{project.name}</h4>
-                                            <p className="text-[10px] text-on-surface-variant">Chỉnh sửa lần cuối {project.time} bởi {project.author}</p>
-                                        </div>
+                    <button
+                        onClick={() => onViewChange('projects')}
+                        className="text-sm font-bold text-primary hover:underline"
+                    >
+                        Xem tất cả
+                    </button>
+                </div>
+                <div className="bg-surface-container-low rounded-xl overflow-hidden border border-outline-variant/10">
+                    {recentProjects.map((project, i) => {
+                        const Icon = project.icon;
+                        return (
+                            <div key={i} className="flex items-center justify-between p-4 bg-white hover:bg-blue-50/30 transition-colors group border-b border-outline-variant/5 last:border-0">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+                                        <Icon size={20} />
                                     </div>
-                                    <div className="flex items-center gap-8">
-                                        <div className="hidden md:flex flex-col items-end">
-                                            <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Tài liệu</p>
-                                            <p className="text-xs font-semibold">{project.docs}</p>
-                                        </div>
-                                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${project.status === 'Đã hoàn tất' ? 'bg-emerald-50 text-emerald-700' :
-                                                project.status === 'Đã duyệt' ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'
-                                            }`}>
-                                            {project.status}
-                                        </span>
-                                        <button className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-primary transition-all">
-                                            <MoreVertical size={16} />
-                                        </button>
+                                    <div>
+                                        <h4 className="text-sm font-bold text-on-surface">{project.name}</h4>
+                                        <p className="text-[10px] text-on-surface-variant">Chỉnh sửa lần cuối {project.time} bởi {project.author}</p>
                                     </div>
                                 </div>
-                            );
-                        })}
-                    </div>
-                </div>
-
-                <div className="bg-surface-container-low rounded-xl p-6 h-fit border border-outline-variant/10">
-                    <h3 className="text-sm font-bold text-on-surface mb-4">Hoạt động hệ thống</h3>
-                    <div className="space-y-6 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-px before:bg-outline-variant/30">
-                        <div className="relative pl-8">
-                            <div className="absolute left-1.5 top-1 w-3 h-3 rounded-full bg-primary ring-4 ring-surface-container-low"></div>
-                            <p className="text-xs font-bold text-on-surface">SRS đã được tạo</p>
-                            <p className="text-[10px] text-on-surface-variant">Hệ thống tự động tạo SRS cho 'Fintech API'</p>
-                            <p className="text-[10px] font-medium text-primary mt-1">12 phút trước</p>
-                        </div>
-                        <div className="relative pl-8">
-                            <div className="absolute left-1.5 top-1 w-3 h-3 rounded-full bg-slate-400 ring-4 ring-surface-container-low"></div>
-                            <p className="text-xs font-bold text-on-surface">Người thẩm định mới tham gia</p>
-                            <p className="text-[10px] text-on-surface-variant">David Smith đã được thêm vào nhóm 'Cloud Migration'</p>
-                            <p className="text-[10px] font-medium text-slate-400 mt-1">1 giờ trước</p>
-                        </div>
-                        <div className="relative pl-8">
-                            <div className="absolute left-1.5 top-1 w-3 h-3 rounded-full bg-primary ring-4 ring-surface-container-low"></div>
-                            <p className="text-xs font-bold text-on-surface">Tài liệu đã xuất</p>
-                            <p className="text-[10px] text-on-surface-variant">BRD V2.1 đã xuất sang PDF và Jira</p>
-                            <p className="text-[10px] font-medium text-primary mt-1">3 giờ trước</p>
-                        </div>
-                    </div>
-                    <button className="w-full mt-6 py-2 bg-surface-container-highest rounded-lg text-xs font-bold text-primary-container hover:bg-primary-container hover:text-white transition-all">
-                        Xem nhật ký kiểm tra
-                    </button>
+                                <div className="flex items-center gap-8">
+                                    <div className="hidden md:flex flex-col items-end">
+                                        <p className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Tài liệu</p>
+                                        <p className="text-xs font-semibold">{project.docs}</p>
+                                    </div>
+                                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${project.status === 'Đã hoàn tất' ? 'bg-emerald-50 text-emerald-700' :
+                                        project.status === 'Đã duyệt' ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'
+                                        }`}>
+                                        {project.status}
+                                    </span>
+                                    <button className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-primary transition-all">
+                                        <MoreVertical size={16} />
+                                    </button>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             </section>
         </div>

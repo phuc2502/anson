@@ -211,75 +211,30 @@ const TestingView: React.FC<TestingViewProps> = ({ testCases, onUpdateTestCases:
     return (
         <div className="p-8 space-y-8">
             <div className="grid grid-cols-12 gap-6">
-                {/* Main Coverage Metric */}
-                <div className="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/10">
-                    <div className="flex justify-between items-start mb-6">
-                        <div>
-                            <h3 className="text-sm font-semibold mb-1">Độ phủ yêu cầu</h3>
-                            <p className="text-xs text-secondary">Tổng quan ma trận truy vết</p>
-                        </div>
-                        <div className="px-3 py-1 bg-primary-container text-white rounded-full text-[10px] font-bold">87% TỔNG CỘNG</div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-4">
-                        <div className="space-y-4">
-                            <div className="flex items-end justify-between">
-                                <span className="text-4xl leading-none font-bold text-primary">124</span>
-                                <span className="text-[10px] font-medium text-secondary">Đã phủ</span>
-                            </div>
-                            <div className="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-                                <motion.div initial={{ width: 0 }} animate={{ width: '87%' }} className="h-full bg-primary" />
-                            </div>
-                            <p className="text-[10px] text-on-surface-variant">Yêu cầu chức năng</p>
-                        </div>
-                        <div className="space-y-4">
-                            <div className="flex items-end justify-between">
-                                <span className="text-4xl leading-none font-bold text-secondary">42</span>
-                                <span className="text-[10px] font-medium text-secondary">Một phần</span>
-                            </div>
-                            <div className="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-                                <motion.div initial={{ width: 0 }} animate={{ width: '42%' }} className="h-full bg-secondary" />
-                            </div>
-                            <p className="text-[10px] text-on-surface-variant">Phi chức năng</p>
-                        </div>
-                        <div className="space-y-4">
-                            <div className="flex items-end justify-between">
-                                <span className="text-4xl leading-none font-bold text-error">12</span>
-                                <span className="text-[10px] font-medium text-secondary">Còn thiếu</span>
-                            </div>
-                            <div className="h-2 w-full bg-surface-container rounded-full overflow-hidden">
-                                <motion.div initial={{ width: 0 }} animate={{ width: '15%' }} className="h-full bg-error" />
-                            </div>
-                            <p className="text-[10px] text-on-surface-variant">Khu vực chưa kiểm thử</p>
-                        </div>
-                    </div>
-                </div>
-
                 {/* Execution Status Card */}
-                <div className="col-span-12 lg:col-span-4 bg-primary text-white rounded-xl p-6 relative overflow-hidden shadow-xl shadow-primary/20">
+                <div className="col-span-12 bg-primary text-white rounded-xl p-8 relative overflow-hidden shadow-xl shadow-primary/20">
                     <div className="relative z-10">
-                        <h3 className="text-sm font-semibold mb-6">Trạng thái thực thi</h3>
-                        <div className="space-y-3">
+                        <h3 className="text-lg font-bold mb-6">Trạng thái thực thi</h3>
+                        <div className="flex flex-wrap gap-12 items-center">
                             {statusOptions.map((opt) => {
                                 const count = testCases.filter(t => t.status === opt.value).length;
                                 return (
-                                    <div key={opt.value} className="flex justify-between items-center">
-                                        <div className="flex items-center gap-2">
-                                            <opt.icon size={14} className="opacity-70" />
-                                            <span className="text-sm opacity-80">{opt.label}</span>
-                                        </div>
-                                        <span className="font-bold">{count}</span>
+                                    <div key={opt.value} className="flex items-center gap-3">
+                                        <opt.icon size={22} className="opacity-70" />
+                                        <span className="text-base opacity-80">{opt.label}</span>
+                                        <span className="text-2xl font-black">{count}</span>
                                     </div>
                                 );
                             })}
-                            <div className="pt-4 mt-4 border-t border-white/10 flex justify-between items-center">
-                                <span className="text-[10px] uppercase tracking-widest font-bold opacity-60">Tổng cộng</span>
-                                <span className="text-2xl font-bold">{testCases.length}</span>
+                            <div className="flex items-center gap-4 pl-6 border-l-2 border-white/20">
+                                <span className="text-xs uppercase tracking-widest font-bold opacity-60">Tổng cộng</span>
+                                <span className="text-4xl font-black">{testCases.length}</span>
                             </div>
                         </div>
                     </div>
                     <div className="absolute -right-12 -bottom-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
                     <div className="absolute right-4 top-4 opacity-20">
-                        <BarChart3 size={64} />
+                        <BarChart3 size={80} />
                     </div>
                 </div>
             </div>
@@ -375,47 +330,6 @@ const TestingView: React.FC<TestingViewProps> = ({ testCases, onUpdateTestCases:
                             Generative Test Case từ Context
                         </button>
                     </div>
-
-                    <div className="flex items-center justify-between px-1">
-                        <h3 className="text-sm font-bold flex items-center gap-2">
-                            <Sparkles size={16} className="text-primary" />
-                            Hàng đợi xác minh
-                        </h3>
-                        <span className="bg-surface-container-highest text-primary text-[10px] font-bold px-2 py-1 rounded">5 MỚI</span>
-                    </div>
-                    <div className="space-y-3">
-                        <div className="bg-white rounded-xl p-4 border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                            <div className="flex justify-between items-start mb-2">
-                                <span className="text-[10px] font-bold text-primary uppercase tracking-tighter">TC-GEN-084</span>
-                                <MoreVertical size={14} className="text-secondary" />
-                            </div>
-                            <p className="text-sm font-semibold mb-3 leading-tight">Xác thực cơ chế dự phòng MFA</p>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-1">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-                                    <span className="text-[10px] text-secondary font-medium">Mô-đun Auth</span>
-                                </div>
-                                <button className="text-[10px] font-bold text-primary hover:underline uppercase tracking-widest">Xác minh</button>
-                            </div>
-                        </div>
-                        <div className="bg-white rounded-xl p-4 border border-outline-variant/10 shadow-sm hover:shadow-md transition-shadow cursor-pointer border-l-4 border-l-primary">
-                            <div className="flex justify-between items-start mb-2">
-                                <span className="text-[10px] font-bold text-primary uppercase tracking-tighter">TC-GEN-085</span>
-                                <MoreVertical size={14} className="text-secondary" />
-                            </div>
-                            <p className="text-sm font-semibold mb-3 leading-tight">Kiểm thử áp lực tạo tài liệu đồng thời (50+ người dùng)</p>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-1">
-                                    <span className="w-1.5 h-1.5 rounded-full bg-error"></span>
-                                    <span className="text-[10px] text-secondary font-medium">Hiệu năng</span>
-                                </div>
-                                <button className="text-[10px] font-bold text-primary hover:underline uppercase tracking-widest">Xác minh</button>
-                            </div>
-                        </div>
-                    </div>
-                    <button className="w-full py-3 text-[10px] font-bold text-white bg-on-surface rounded-xl hover:opacity-90 transition-opacity uppercase tracking-widest">
-                        Xem tất cả bản nháp AI
-                    </button>
                 </div>
 
                 {/* Test Repository Table */}

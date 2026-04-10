@@ -155,18 +155,18 @@ const ProjectSetupView: React.FC<ProjectSetupViewProps> = ({ onAddProject, onVie
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
-                    className="col-span-12 lg:col-span-4 bg-[#0B1221] text-white p-8 rounded-[32px] shadow-2xl relative overflow-hidden flex flex-col"
+                    className="col-span-12 lg:col-span-4 bg-primary text-white p-8 rounded-[32px] shadow-2xl shadow-primary/20 relative overflow-hidden flex flex-col"
                 >
-                    <div className="absolute top-0 right-0 w-48 h-48 bg-primary/10 blur-[80px] rounded-full -mr-24 -mt-24"></div>
+                    <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 blur-[80px] rounded-full -mr-24 -mt-24"></div>
                     <div className="relative z-10 flex-1 flex flex-col">
                         <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center gap-3">
-                                <div className="p-2.5 bg-white/5 rounded-xl text-primary">
+                                <div className="p-2.5 bg-white/15 rounded-xl text-white">
                                     <Network size={24} />
                                 </div>
                                 <h3 className="text-sm font-black uppercase tracking-widest">Điều phối AI</h3>
                             </div>
-                            <Settings2 size={20} className="text-white/20 hover:text-primary transition-colors cursor-pointer" />
+                            <Settings2 size={20} className="text-white/30 hover:text-white transition-colors cursor-pointer" />
                         </div>
 
                         <div className="space-y-6 flex-1">
@@ -176,7 +176,7 @@ const ProjectSetupView: React.FC<ProjectSetupViewProps> = ({ onAddProject, onVie
                                     type="text"
                                     value={ollamaUrl}
                                     onChange={(e) => setOllamaUrl(e.target.value)}
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-[11px] font-mono text-primary focus:border-primary outline-none transition-all"
+                                    className="w-full bg-white/10 border border-white/20 rounded-xl p-3 text-[11px] font-mono text-white focus:border-white/50 outline-none transition-all placeholder:text-white/40"
                                 />
                             </div>
 
@@ -187,7 +187,7 @@ const ProjectSetupView: React.FC<ProjectSetupViewProps> = ({ onAddProject, onVie
                                         <button
                                             key={model}
                                             onClick={() => setSelectedModel(model)}
-                                            className={`py-3 px-4 rounded-xl text-[10px] font-bold transition-all border ${selectedModel === model ? 'bg-primary border-primary text-white shadow-lg shadow-primary/20' : 'bg-white/5 border-white/10 text-white/30 hover:bg-white/10'}`}
+                                            className={`py-3 px-4 rounded-xl text-[10px] font-bold transition-all border ${selectedModel === model ? 'bg-white border-white text-primary shadow-lg shadow-black/10' : 'bg-white/10 border-white/20 text-white/60 hover:bg-white/20'}`}
                                         >
                                             {model}
                                         </button>
@@ -198,7 +198,7 @@ const ProjectSetupView: React.FC<ProjectSetupViewProps> = ({ onAddProject, onVie
                             <div className="p-5 bg-white/5 rounded-2xl border border-white/10 space-y-4">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2.5">
-                                        <Cpu size={16} className="text-primary" />
+                                        <Cpu size={16} className="text-white" />
                                         <span className="text-[11px] font-bold">Ollama Engine Status</span>
                                     </div>
                                     <div className="flex items-center gap-2">
@@ -210,7 +210,7 @@ const ProjectSetupView: React.FC<ProjectSetupViewProps> = ({ onAddProject, onVie
                                     <motion.div
                                         initial={{ width: 0 }}
                                         animate={{ width: '92%' }}
-                                        className="h-full bg-primary"
+                                        className="h-full bg-white"
                                     />
                                 </div>
                             </div>
@@ -218,7 +218,7 @@ const ProjectSetupView: React.FC<ProjectSetupViewProps> = ({ onAddProject, onVie
                             <div className="space-y-3">
                                 <div className="flex justify-between">
                                     <label className="text-[10px] text-white/30 uppercase font-black tracking-[0.2em]">Temperature</label>
-                                    <span className="text-[11px] font-bold text-primary">{temperature}</span>
+                                    <span className="text-[11px] font-bold text-white">{temperature}</span>
                                 </div>
                                 <input
                                     type="range" min="0" max="1" step="0.1" value={temperature}

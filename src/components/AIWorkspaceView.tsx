@@ -37,7 +37,7 @@ const AIWorkspaceView: React.FC<AIWorkspaceViewProps> = ({ templates, projects, 
     const [isDocDropdownOpen, setIsDocDropdownOpen] = React.useState(false);
     const [isProjectDropdownOpen, setIsProjectDropdownOpen] = React.useState(false);
     const [isExportDropdownOpen, setIsExportDropdownOpen] = React.useState(false);
-    const [selectedDocType, setSelectedDocType] = React.useState(templates[0]?.title || 'Tài liệu Yêu cầu Nghiệp vụ (BRD)');
+    const [selectedDocTypes, setSelectedDocTypes] = React.useState<string[]>([templates[0]?.title || 'Tài liệu Yêu cầu Nghiệp vụ (BRD)']);
     const [selectedProjectName, setSelectedProjectName] = React.useState(projects[0]?.name || 'CloudScale ERP v4');
     const [isGenerating, setIsGenerating] = React.useState(false);
     const [showPreview, setShowPreview] = React.useState(false);
@@ -64,7 +64,7 @@ const AIWorkspaceView: React.FC<AIWorkspaceViewProps> = ({ templates, projects, 
             const project = projects.find(p => p.name === selectedProjectName);
             if (onDocumentGenerated && project) {
                 onDocumentGenerated({
-                    type: selectedDocType,
+                    type: selectedDocTypes.length > 0 ? selectedDocTypes.join(', ') : 'Tài liệu tùy chỉnh',
                     projectId: Number(project.id),
                     createdAt: new Date().toISOString()
                 });
@@ -161,49 +161,81 @@ const AIWorkspaceView: React.FC<AIWorkspaceViewProps> = ({ templates, projects, 
             {/* Header/Tools Area */}
             <div className="h-14 bg-white flex items-center justify-between px-6 border-b border-outline-variant/10">
                 <div className="flex items-center gap-4">
-                    <div className="relative">
-                        <button
-                            onClick={() => setIsDocDropdownOpen(!isDocDropdownOpen)}
-                            className="bg-surface-container-lowest px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm border border-outline-variant/5 hover:bg-surface-container-low transition-colors min-w-[280px] justify-between"
-                        >
-                            <div className="flex items-center gap-2">
-                                <FileText size={18} className="text-primary" />
-                                <span className="truncate">{selectedDocType}</span>
-                            </div>
-                            <ChevronDown size={16} className={`transition-transform duration-200 ${isDocDropdownOpen ? 'rotate-180' : ''}`} />
-                        </button>
+                        <div className="relative">
+                            <button
+                                onClick={() => setIsDocDropdownOpen(!isDocDropdownOpen)}
+                                className="bg-surface-container-lowest px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm border border-outline-variant/5 hover:bg-surface-container-low transition-colors min-w-[280px] justify-between"
+                            >
+                                <div className="flex items-center gap-2">
+                                    <FileText size={18} className="text-primary" />
+                                    <span className="truncate">
+                                        {selectedDocTypes.length === 0 
+                                            ? 'Không chọn loại tài liệu nào' 
+                                            : selectedDocTypes.length === 1 
+                                                ? selectedDocTypes[0] 
+                                                : `Đã chọn ${selectedDocTypes.length} tài liệu`}
+                                    </span>
+                                </div>
+                                <ChevronDown size={16} className={`transition-transform duration-200 ${isDocDropdownOpen ? 'rotate-180' : ''}`} />
+                            </button>
 
-                        <AnimatePresence>
-                            {isDocDropdownOpen && (
-                                <>
-                                    <div className="fixed inset-0 z-10" onClick={() => setIsDocDropdownOpen(false)}></div>
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                        className="absolute top-full left-0 mt-2 w-full bg-white rounded-xl shadow-xl border border-outline-variant/10 py-2 z-20 overflow-hidden"
-                                    >
-                                        {docTypes.map((type) => (
+                            <AnimatePresence>
+                                {isDocDropdownOpen && (
+                                    <>
+                                        <div className="fixed inset-0 z-10" onClick={() => setIsDocDropdownOpen(false)}></div>
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            className="absolute top-full left-0 mt-2 w-full bg-white rounded-xl shadow-xl border border-outline-variant/10 py-2 z-20 overflow-hidden max-h-[300px] overflow-y-auto"
+                                        >
                                             <button
-                                                key={type.id}
                                                 onClick={() => {
-                                                    setSelectedDocType(type.name);
+                                                    setSelectedDocTypes([]);
                                                     setIsDocDropdownOpen(false);
                                                 }}
-                                                className={`w-full text-left px-4 py-2.5 text-sm transition-colors flex items-center gap-3 ${selectedDocType === type.name
+                                                className={`w-full text-left px-4 py-2.5 text-sm transition-colors flex items-center gap-3 ${selectedDocTypes.length === 0
                                                         ? 'bg-primary/5 text-primary font-bold'
-                                                        : 'text-slate-600 hover:bg-slate-50'
+                                                        : 'text-slate-500 hover:bg-slate-50'
                                                     }`}
                                             >
-                                                <div className={`w-1.5 h-1.5 rounded-full ${selectedDocType === type.name ? 'bg-primary' : 'bg-transparent'}`}></div>
-                                                {type.name}
+                                                <div className={`w-3 h-3 rounded-sm border flex items-center justify-center ${selectedDocTypes.length === 0 ? 'bg-primary border-primary' : 'border-outline-variant/50'}`}>
+                                                    {selectedDocTypes.length === 0 && <CheckCircle2 size={8} className="text-white" />}
+                                                </div>
+                                                <span className="italic">Không chọn loại tài liệu nào</span>
                                             </button>
-                                        ))}
-                                    </motion.div>
-                                </>
-                            )}
-                        </AnimatePresence>
-                    </div>
+                                            
+                                            <div className="h-px bg-outline-variant/10 my-1 mx-4"></div>
+
+                                            {docTypes.map((type) => {
+                                                const isSelected = selectedDocTypes.includes(type.name);
+                                                return (
+                                                    <button
+                                                        key={type.id}
+                                                        onClick={() => {
+                                                            setSelectedDocTypes(prev => 
+                                                                prev.includes(type.name) 
+                                                                    ? prev.filter(t => t !== type.name)
+                                                                    : [...prev, type.name]
+                                                            );
+                                                        }}
+                                                        className={`w-full text-left px-4 py-2.5 text-sm transition-colors flex items-center gap-3 ${isSelected
+                                                                ? 'bg-primary/5 text-primary font-bold'
+                                                                : 'text-slate-600 hover:bg-slate-50'
+                                                            }`}
+                                                    >
+                                                        <div className={`w-3 h-3 rounded-sm border flex items-center justify-center transition-colors ${isSelected ? 'bg-primary border-primary' : 'border-outline-variant/50'}`}>
+                                                            {isSelected && <CheckCircle2 size={8} className="text-white" />}
+                                                        </div>
+                                                        {type.name}
+                                                    </button>
+                                                );
+                                            })}
+                                        </motion.div>
+                                    </>
+                                )}
+                            </AnimatePresence>
+                        </div>
                     <span className="h-4 w-[1px] bg-outline-variant/30"></span>
                     <div className="flex items-center gap-2 relative">
                         <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Dự án mục tiêu:</span>
@@ -588,7 +620,9 @@ const AIWorkspaceView: React.FC<AIWorkspaceViewProps> = ({ templates, projects, 
                                 <article className="w-full max-w-2xl bg-white shadow-xl min-h-[1000px] p-12 rounded-sm border border-outline-variant/5 select-text">
                                     <div className="space-y-8">
                                         <header className="border-b border-primary/20 pb-4">
-                                            <h1 className="text-3xl font-bold text-on-surface">{selectedDocType}</h1>
+                                            <h1 className="text-3xl font-bold text-on-surface">
+                                                {selectedDocTypes.length > 0 ? selectedDocTypes.join(' & ') : 'Tài liệu Khởi tạo tùy chỉnh'}
+                                            </h1>
                                             <div className="flex justify-between items-center mt-2">
                                                 <p className="text-sm font-medium text-primary">Bản thảo phiên bản 0.8 (Tự động tạo)</p>
                                                 <p className="text-xs text-slate-400">Cập nhật 2 phút trước</p>

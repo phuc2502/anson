@@ -6,10 +6,10 @@ import {
     FileText,
     ShieldCheck,
     Settings,
-    Plus,
-    Sparkles
+    Plus
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import logo from '../img/logo.png';
 
 interface SidebarProps {
     activeView: string;
@@ -30,8 +30,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, onViewChange }) => {
         <aside className="h-screen w-64 fixed left-0 top-0 bg-surface-container-lowest border-r border-outline-variant/10 flex flex-col p-4 space-y-2 z-50 shadow-sm">
             <div className="mb-8 px-2">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center text-white shadow-lg shadow-primary/20">
-                        <Sparkles size={20} />
+                    <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-primary/20">
+                        <img src={logo} alt="ANSO Logo" className="w-full h-full object-cover" />
                     </div>
                     <div>
                         <h1 className="text-xl font-bold text-on-surface leading-tight">ANSO</h1>
