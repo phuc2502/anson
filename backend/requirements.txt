@@ -1,0 +1,25 @@
+# ===== Core Framework =====
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+python-dotenv==1.1.0
+
+# ===== Database =====
+sqlalchemy==2.0.41
+aiosqlite==0.21.0
+
+# ===== AI / LLM =====
+httpx==0.28.1
+ollama==0.4.8
+
+# ===== RAG & Embeddings =====
+chromadb==1.0.7
+
+# ===== Memory & Document Processing =====
+langchain==0.3.25
+langchain-community==0.3.24
+langchain-text-splitters==0.3.8
+
+# ===== Utilities =====
+pydantic==2.11.3
+pydantic-settings==2.9.1
+sse-starlette==2.3.4
